@@ -1,0 +1,168 @@
+@use "sass:color";
+@use "../../../colors" as colors;
+@use "../../../mixins" as mixins;
+
+section.invoice-builder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  box-sizing: border-box;
+  padding:  0 0 24px 0;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    p {
+      font-weight: bold;
+      font-size: 1.5em;
+      margin: 0;
+      padding: 25px 0;
+    }
+
+    img {
+      width: 30px;
+      height: 30px;
+      padding-right: 10px;
+    }
+  }
+
+  form {
+    width: 650px;
+
+    fieldset {
+      border: 1px solid colors.$border-color;
+      padding: 1em 1.5em;
+      border-radius: 8px;
+      background: #fafafa;
+      margin-bottom: 2em;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+
+      small {
+        color: colors.$error-color;
+      }
+    }
+
+    legend {
+      font-weight: bold;
+      padding: 0 0.5em;
+      color: colors.$primary-text-color;
+
+      display: flex;
+      align-items: center;
+
+      p.small-explanation {
+        font-size: 0.8em;
+        color: colors.$primary-text-color;
+        margin: 0;
+        padding-left: 10px;
+      }
+    }
+
+    div.form-group {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 1em;
+
+      label {
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+        color: colors.$primary-text-color;
+      }
+
+      input {
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: colors.$border-color;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: colors.$secondary-text-color;
+          box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+        }
+      }
+
+      small {
+        color: colors.$error-color;
+        margin-top: 0.3rem;
+      }
+    }
+
+    div.controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      box-sizing: border-box;
+      padding: 24px 20%;
+
+      button {
+        @include mixins.button(colors.$secondary-text-color, colors.$white-color);
+      }
+    }
+
+
+  }
+}
+
+div.http-switcher {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0;
+    padding-right: 15px;
+  }
+
+  button {
+    @include mixins.button(colors.$white-color, colors.$secondary-text-color);
+    border: 1px solid colors.$error-color;
+    padding: 10px;
+  }
+}
+
+
+div.pdf-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: color.adjust(colors.$primary-text-color, $alpha: -0.1);
+
+  div.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 1em 20px;
+
+    background-color: colors.$white-color;
+    width: 650px;
+
+    button {
+      font-weight: bold;
+    }
+
+    button.confirm {
+      @include mixins.button(colors.$white-color, colors.$error-color);
+      border: 1px solid colors.$error-color;
+    }
+    button.cancel {
+      @include mixins.button(colors.$secondary-text-color, colors.$white-color)
+    }
+  }
+}

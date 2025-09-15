@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {MessagesModalComponent} from './shared/components/messages-modal/messages-modal.component';
+import {MessagesModalService} from './core/services/messages-modal.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet,
+    MessagesModalComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'cibus';
+
+  constructor(public messagesModalService: MessagesModalService) {
+  }
 }
+

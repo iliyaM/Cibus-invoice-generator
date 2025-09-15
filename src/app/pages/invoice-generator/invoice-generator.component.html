@@ -1,0 +1,127 @@
+<section class="invoice-builder">
+
+  <header>
+    <img src="/cibus-icon.png" alt="cibus-icon">
+    <p>Invoice Generator</p>
+  </header>
+
+  <form [formGroup]="invoiceForm" (ngSubmit)="saveUserAndInvoiceDetails()" class="form-container">
+
+    <!-- Personal Details -->
+    <fieldset formGroupName="personalDetails">
+      <legend>👤 Personal Details</legend>
+
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" formControlName="fullName"/>
+        <small
+          *ngIf="personalDetails.get('fullName')?.touched && personalDetails.get('fullName')?.hasError('required')">
+          Full Name is required
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" formControlName="email"/>
+        <small *ngIf="personalDetails.get('email')?.touched">
+          <ng-container *ngIf="personalDetails.get('email')?.hasError('required')" class="error">Email is required
+          </ng-container>
+          <ng-container *ngIf="personalDetails.get('email')?.hasError('email')" class="error">Invalid email format (
+            john&#64;doe.com )
+          </ng-container>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="text" placeholder="05XXXXXXXX" formControlName="phone"/>
+        <small *ngIf="personalDetails.get('phone')?.touched && personalDetails.get('phone')?.hasError('pattern')"
+               class="error">
+          Enter a valid phone number (05XXXXXXXX)
+        </small>
+      </div>
+    </fieldset>
+
+    <!-- Invoice Details -->
+    <fieldset formGroupName="invoiceDetails">
+      <legend>🧾 Invoice Details</legend>
+
+      <div class="form-group">
+        <label for="invoiceNumber">Invoice Number *</label>
+        <input id="invoiceNumber" type="text" formControlName="invoiceNumber"/>
+
+        <small *ngIf="invoiceDetails.get('invoiceNumber')?.touched">
+          <span *ngIf="invoiceDetails.get('invoiceNumber')?.hasError('required')" class="error">Invoice Number is required</span>
+          <span *ngIf="invoiceDetails.get('invoiceNumber')?.hasError('pattern')" class="error">Must be alphanumeric (letters (A-Z, a-z) and numbers (0-9) combined)</span>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Amount *</label>
+        <input id="amount" type="number" formControlName="amount" min="1" step="1"/>
+        <small *ngIf="invoiceDetails.get('amount')?.touched">
+          <span *ngIf="invoiceDetails.get('amount')?.hasError('required')" class="error">Amount is required</span>
+          <span *ngIf="invoiceDetails.get('amount')?.hasError('min')" class="error">Amount must be positive</span>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="invoiceDate">Invoice Date *</label>
+        <input id="invoiceDate" type="date" formControlName="invoiceDate"/>
+        <small
+          *ngIf="invoiceDetails.get('invoiceDate')?.touched && invoiceDetails.get('invoiceDate')?.hasError('required')"
+          class="error">
+          Invoice Date is required
+        </small>
+      </div>
+    </fieldset>
+
+    <!-- Signature Pad -->
+    <fieldset>
+      <legend>✍️ Signature <p class="small-explanation">(sign with mouse)</p></legend>
+      <app-signature-pad formControlName="signature"></app-signature-pad>
+
+      <small *ngIf="invoiceForm.get('signature')?.invalid && invoiceForm.get('signature')?.touched" class="error">
+        Signature is required
+      </small>
+    </fieldset>
+
+
+    <div class="controls">
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="invoiceForm.invalid">Save Details</button>
+
+      <!-- Submit Button -->
+      <button type="button" [disabled]="invoiceForm.invalid" (click)="generatePDF()">Generate Invoice</button>
+
+    </div>
+
+  </form>
+
+  <!-- Toggle success | failure or request -->
+  <div class="http-switcher">
+    <p>Toggle Success / Failure for Http requests: </p>
+    <button (click)="httpService.toggleRequestState()">
+      <p>(Current state: {{ httpService.requestShouldSucceed() ? '✅ Success' : '❌ Failure' }}) </p>
+    </button>
+  </div>
+
+
+  <div class="pdf-overlay" *ngIf="pdfDataUrl">
+    <iframe
+      [src]="pdfDataUrl "
+      style="width: 650px; height:650px;"
+    ></iframe>
+
+    <div class="controls">
+      <button class="confirm" (click)="sendPdfToBe()">Confirm and send to BE</button>
+      <button class="cancel" (click)="pdfDataUrl = null">Cancel</button>
+    </div>
+  </div>
+
+</section>
+
+
+
+
+

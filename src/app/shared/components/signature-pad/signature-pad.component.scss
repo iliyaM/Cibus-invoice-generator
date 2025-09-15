@@ -1,0 +1,20 @@
+@use "../../../../mixins" as mixins;
+@use "../../../../colors" as colors;
+
+div.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  canvas {
+    border: 1px solid colors.$primary-text-color;
+    margin-bottom: 1em;
+  }
+
+  button {
+    @include mixins.button(colors.$white-color, colors.$error-color);
+    border: 1px solid colors.$error-color;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+}

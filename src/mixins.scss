@@ -1,0 +1,28 @@
+@mixin button($bg: #007bff, $color: #fff) {
+  display: flex;
+  align-items: center;
+  border: none;
+
+  padding: 15px 20px;
+  border-radius: 5px;
+
+  cursor: pointer;
+  background-color: $bg;
+  color: $color;
+  transition: all 0.3s;
+
+  p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:disabled {
+    background: #ccc;
+    pointer-events: none;
+  }
+}
